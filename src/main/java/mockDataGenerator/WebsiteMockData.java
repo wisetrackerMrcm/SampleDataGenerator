@@ -10,13 +10,15 @@ public class WebsiteMockData {
  	
 	private MockRandomEventGenerator eventGenerator = new MockRandomEventGenerator();
 	private String _wtno; 
+	private String _accessToken;
 	private int users;
 	private int eventsLength;
 	
 	private FileWriter fileWriter;
-	public WebsiteMockData(String serviceNo, int users, int eventsLength ) {
+	public WebsiteMockData(String serviceNo, String serviceToken,  int users, int eventsLength ) {
 		try {
 			this._wtno = serviceNo;
+			this._accessToken = serviceToken;
 			this.users = users;
 			this.eventsLength = eventsLength;
 			this.fileWriter = new FileWriter(new File("."+File.separator+"dist"+File.separator+String.join("_", "Web_SampleData", String.valueOf(System.nanoTime()), ".data"))); 
@@ -41,14 +43,19 @@ public class WebsiteMockData {
 				String userId = String.join("_", "WebTestUser",String.valueOf(_u)); 
 				WebDataTemplate template = new WebDataTemplate(
 						this._wtno,
+						this._accessToken,
 						String.join("_", "u",(UUID.randomUUID()).toString()),
 						String.join("_", "s",(UUID.randomUUID()).toString()),
 						userId
 				); 
- 				 
-				this.setUserAgent(template);
-				// events by user
-				System.out.println("create user " + userId ); 
+				this.setUserAgent(template); 
+				template.put("eventTime", System.currentTimeMillis() );
+				this.fileWriter.write(template.toJSONString()+"\n"); 				
+				template.setSessionValue("isVisitNew", false ); 
+				
+				// events by user 
+				System.out.println("create user " + userId );  
+				// create session  
 				for( int _e = 0; _e < this.eventsLength; _e++) { 
 					this.setUrlAndReferer(template);
 					this.eventGenerator.occureRandomEvent(template);

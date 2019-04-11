@@ -18,7 +18,8 @@ public class MockRandomEventGenerator {
 	private int tno = 1; 
 	
 	public void occureRandomEvent(DataTemplateInf template) { 
-		try { 
+		try {
+			template.putData("eventTime", System.currentTimeMillis()); 
 			int r = (int) Math.floor((Math.random()*1000)%6); 
 			switch(r) { 
 				case 0 : this.addLogEvent(template);	break; 
@@ -27,7 +28,7 @@ public class MockRandomEventGenerator {
 				case 3 : this.addGroupIdentify(template);	break; 
 				case 4 : this.addConversion(template);	break; 
 				case 5 : this.addRevenue(template);	break;  
-			}  
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -192,7 +193,7 @@ public class MockRandomEventGenerator {
 		} 
 		product.put("amt", unit * ea );
 		product.put("ea", ea );
-		product.put("productOrderNo", String.join("_", "prdOrdNo", String.valueOf(System.nanoTime()))); 
+		product.put("ordPno", String.join("_", "prdOrdNo", String.valueOf(System.nanoTime()))); 
 		if((new Random().nextInt(10)%2) == 0 ) {
 			this.addProperties(product);	 
  		}  

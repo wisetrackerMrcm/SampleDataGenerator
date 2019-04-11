@@ -14,6 +14,7 @@ public class AppDataTemplate extends JSONObject implements DataTemplateInf {
 
  	public AppDataTemplate(
 			String _wtno,
+			String _accessToken,
 			String uuid,
 			String sid,
 			String userId
@@ -23,12 +24,16 @@ public class AppDataTemplate extends JSONObject implements DataTemplateInf {
 		.append(" {   ")
 		.append("    \"sequence\":0, ")
 		.append("    \"eventId\":0, ")
+		.append("    \"eventTime\":0, ") 
 		.append("    \"session\":{   ") 
 		.append("         \"sdk_version\":\"1\",")
+		.append("         \"dSource\":\"App\", ")		
+		.append("         \"isVisitNew\":true, ") 
 		.append("         \"apvr\":\"1.0\",")
 		.append("         \"userMode\":3,")
 		.append("         \"_wthst\":\"collector.naver.wisetracker.co.kr\",")
 		.append("         \"_wtno\":\"").append(_wtno).append("\",")
+		.append("         \"_accessToken\":\"").append(_accessToken).append("\", ")
 		.append("         \"uuid\":\"").append(uuid).append("\", ")
 		.append("         \"sid\":\"").append(sid).append("\", ")		
 		.append("         \"userId\":\"").append(userId).append("\", ")  
@@ -37,18 +42,7 @@ public class AppDataTemplate extends JSONObject implements DataTemplateInf {
 		.append("         \"adidChanage\":\"N\",")
 		.append("         \"buildMode\":\"dev\"")
 		.append("         \"pkg\":\"com.wisetracker.app\",")
-		.append("         \"advtFlag\":0") 		
-
-		
-//		.append("         \"wtc\":\"adCampaign\",")
-//		.append("         \"wtclkTime\":\"1533607852278\",")
-//		.append("         \"wtm\":\"adType\",")
-//		.append("         \"wtref\":\"wts=adSource&wtc=adCampaign&wtm=adType&wtw=keyword&wtclkTime=1533607852278&_wtcid=DOP102_3443436477568846_bd3660eb78fd43bbaa3883354a4883c9&_wtckp=1440\",")
-//		.append("         \"wts\":\"adSource\",")
-//		.append("         \"wtw\":\"keyword\",")
-//		.append("         \"pushNo\":\"\"") 
-		
-		
+		.append("         \"advtFlag\":0")  
 		.append("    } ")
 		.append(" } ");  
 		
@@ -109,7 +103,7 @@ public class AppDataTemplate extends JSONObject implements DataTemplateInf {
  		
  	}
  	
- 	private void setSessionValue(String key, Object value) throws Exception { 
+ 	public void setSessionValue(String key, Object value) throws Exception { 
  		Map<String,Object> session = (Map<String, Object>)this.get("session");
  		session.put(key, value);  
  	}

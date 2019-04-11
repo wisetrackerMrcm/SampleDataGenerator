@@ -12,6 +12,7 @@ public class WebDataTemplate  extends JSONObject  implements DataTemplateInf {
 
  	public WebDataTemplate(
 			String _wtno,
+			String _accessToken,
 			String uuid,
 			String sid,
 			String userId
@@ -21,11 +22,14 @@ public class WebDataTemplate  extends JSONObject  implements DataTemplateInf {
 		.append(" {   ")
 		.append("    \"sequence\":0, ")
 		.append("    \"eventId\":0, ")
+		.append("    \"eventTime\":0, ")
 		.append("    \"session\":{   ")
 		.append("       \"sdk_version\":1, ")
 		.append("       \"dSource\":\"webSite\", ")
+		.append("       \"isVisitNew\":true, ")
 		.append("       \"buildMode\":\"dev\", ") 
 		.append("       \"_wtno\":\"").append(_wtno).append("\", ")
+		.append("       \"_accessToken\":\"").append(_accessToken).append("\", ")
 		.append("       \"_wthst\":\"//collector.naver.wisetracker.co.kr\", ") 
 		.append("       \"uuid\":\"").append(uuid).append("\", ")
 		.append("       \"sid\":\"").append(sid).append("\", ")		
@@ -40,6 +44,7 @@ public class WebDataTemplate  extends JSONObject  implements DataTemplateInf {
 		.append("       \"cookies\":{   ")
 		.append("          \"isawIntroLayer\":\"true\" ")
 		.append("       } ")  
+		
 		.append("    } ")
 		.append(" } ");  
 		try {
@@ -94,7 +99,7 @@ public class WebDataTemplate  extends JSONObject  implements DataTemplateInf {
  								if(!kv[1].equals("")) {
  									json.put(kv[0], kv[1]);
  									if( kv[0].matches("(wts|wtc|wtm|wtw)")) {
- 										this.put(kv[0], kv[1]);
+ 										this.setSessionValue(kv[0], kv[1]);
  									}
  								}
  							} 
@@ -141,7 +146,7 @@ public class WebDataTemplate  extends JSONObject  implements DataTemplateInf {
  		
  	}
  	
- 	private void setSessionValue(String key, Object value) throws Exception { 
+ 	public void setSessionValue(String key, Object value) throws Exception { 
  		Map<String,Object> session = (Map<String, Object>)this.get("session");
  		session.put(key, value);  
  	}

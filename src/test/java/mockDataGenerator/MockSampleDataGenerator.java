@@ -30,14 +30,16 @@ public class MockSampleDataGenerator {
 			/**
 			 *  generate data configuration
 			 ***/
-			String serviceId = "service_token_str1"; 
+			String serviceId = "service_id_str1";
+			String serviceToken = "service_token_str1";
 			/*********************************************************************/
-			WebsiteMockData mockData = new WebsiteMockData(serviceId, this.users, this.event_per_user);
+			WebsiteMockData mockData = new WebsiteMockData(serviceId, serviceToken, this.users, this.event_per_user);
 			mockData.generate(); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
 	}  
+	
 	/**
 	 * SampleData Generator for Mobile App   
 	 **/
@@ -47,9 +49,10 @@ public class MockSampleDataGenerator {
 			/**
 			 *  generate data configuration
 			 ***/
-			String serviceId = "service_token_str2"; 
+			String serviceId = "service_id_str2";
+			String serviceToken = "service_token_str2"; 
 			/*********************************************************************/
-			AppMockData mockData = new AppMockData(serviceId, this.users, this.event_per_user);
+			AppMockData mockData = new AppMockData(serviceId, serviceToken, this.users, this.event_per_user);
 			mockData.generate(); 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -11,14 +11,17 @@ import org.json.simple.JSONObject;
 public class AppMockData {
  	
 	private MockRandomEventGenerator eventGenerator = new MockRandomEventGenerator();
-	private String _wtno; 
+	private String _wtno;
+	private String _accessToken;
+
 	private int users;
 	private int eventsLength;
 	
 	private FileWriter fileWriter;
-	public AppMockData(String serviceNo, int users, int eventsLength ) {
+	public AppMockData(String serviceNo, String serviceToken, int users, int eventsLength ) {
 		try {
 			this._wtno = serviceNo;
+			this._accessToken = serviceToken;
 			this.users = users;
 			this.eventsLength = eventsLength;
 			this.fileWriter = new FileWriter(new File("."+File.separator+"dist"+File.separator+String.join("_", "App_SampleData", String.valueOf(System.nanoTime()), ".data"))); 
@@ -41,11 +44,15 @@ public class AppMockData {
 				String userId = String.join("_","AppTestUser",String.valueOf(_u));
 				AppDataTemplate template = new AppDataTemplate(
 						this._wtno,
+						this._accessToken,
 						String.join("_", "u",(UUID.randomUUID()).toString()),
 						String.join("_", "s",(UUID.randomUUID()).toString()),
 						userId
 				);  
 				this.setUserDevice(template);
+				template.put("eventTime", System.currentTimeMillis() );
+				this.fileWriter.write(template.toJSONString()+"\n"); 				
+				template.setSessionValue("isVisitNew", false );  
  				// events by user
 				System.out.println("create user " + userId ); 
 				for( int _e = 0; _e < this.eventsLength; _e++) { 
